@@ -1,0 +1,13 @@
+# RGBMRC STYLE DEFAULTS
+axes.facecolor: none
+image.aspect: equal
+image.interpolation: none
+image.origin: lower
+legend.frameon: False
+savefig.bbox: tight
+savefig.transparent: True
+xtick.direction: in
+ytick.direction: in
+xtick.top: True
+ytick.right: True
+grid.linestyle: :

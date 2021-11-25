@@ -1,0 +1,12 @@
+
+# SET FONT SIZE VALUE
+# to append to a STYLE.mplstyle file run
+# sed 's/%/VALUE/' fontsize.mplstyle >> STYLE.mplstyle
+font.size: %
+axes.labelsize: %
+axes.titlesize: %
+figure.titlesize: %
+legend.fontsize: %
+legend.title_fontsize: %
+xtick.labelsize: %
+ytick.labelsize: %
