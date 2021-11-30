@@ -15,7 +15,6 @@ plotter.use_style({'savefig.directory': 'demo'})
 
 fig = plt.figure('demo')
 gs = fig.add_gridspec(ncols=1, nrows=2, height_ratios=[7, 1], hspace=0.33)
-axs = gs.subplots()
 
 # showcase cycler
 plt.subplot(gs[1])
@@ -25,9 +24,9 @@ plt.yticks([])
 plt.xlabel('palette color number')
 
 # monochrome colormap with transparency
-plt.subplot(gs[0])
 dat = np.random.random((5, 7))
 plt.register_cmap(cmap=plotter.coloring.lucid_cmap('C0'))
+plt.subplot(gs[0])
 plt.rc('image', cmap='C0_lucid')  # make the default cmap
 plt.imshow(dat, aspect='auto')
 

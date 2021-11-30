@@ -1,4 +1,9 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
+"""
+Saving matplotlib figures to file.
+
+
+"""
 
 from logging import getLogger
 from subprocess import run
@@ -35,14 +40,14 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
 
     Parameters
     ----------
-    fig : mpl.figure.Figure
+    fig : matplotlib.figure.Figure
         The figure to be saved.
     dest : str or path-like or file-like, default the figure label
         The destination file, or file name (path without extension).
-        If a relative path, the savefig.directory rc parameter is taken
-        as anchor. The file format (extension to append to path) can be
-        specified via the 'format' savefig_kw and defaults to the
-        savefig.format rc parameter.
+        If a relative path, :rc:`savefig.directory` is taken as anchor.
+        The file format (extension to append to path) can be
+        specified via the 'format' savefig_kw and defaults to
+        :rc:`savefig.format`.
     close : bool, default True
         Whether to close the figure after saving.
     **savefig_kw :

@@ -1,4 +1,10 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
+"""
+Customizing matploltib style & behaviour.
+
+see https://matplotlib.org/stable/tutorials/introductory/customizing.html
+
+"""
 
 import matplotlib as mpl
 import matplotlib.style.core
@@ -10,8 +16,8 @@ STYLE_BLACKLIST_EXCLUDES = {'savefig.directory'}
 
 def use_style(style, reset=False):
     """
-    Wrapper around matplotlib.style.use that allows setting the rc param
-    savefig.directory via style sheet.
+    Wrapper around matplotlib.style.use that allows setting
+    :rc:`savefig.directory` via style sheet.
 
     Parameters
     ----------

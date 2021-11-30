@@ -1,4 +1,10 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
+"""
+Annotating figures.
+
+Collection of function and classes controlling text elements in figures;
+e.g. inserting, formatting and positioning axes and tick labels.
+"""
 
 import math
 from itertools import count

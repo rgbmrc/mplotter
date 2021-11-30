@@ -1,4 +1,7 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
+"""
+Adjusting the size of matplotlib figures.
+"""
 
 from importlib import import_module
 from tempfile import NamedTemporaryFile
@@ -6,18 +9,18 @@ from tempfile import NamedTemporaryFile
 import numpy as np
 import matplotlib as mpl
 
-from . import save_fig
+from mplotter.saving import save_fig
 
 __all__ = ['fig_size', 'get_fig_size', 'set_fig_size']
 
 SUPPORTED_FORMATS = {'eps', 'ps', 'svg'}
-"""set[str]: Default supported file formats by get/set_fig_Size."""
+"""set[str]: Default supported file formats by :func:`get_fig_size`."""
 
 EXTRAS_FORMATS = {
     'pdf': ('pikepdf', {'pdf'}),
     'raster': ('PIL', {'png', 'jpg', 'jpeg', 'tif', 'tiff'}),
 }
-"""set[str]: Optional supported file formats by get/set_fig_Size."""
+"""set[str]: Optional supported file formats by :func:`get_fig_size`."""
 
 for pkg, fmts in EXTRAS_FORMATS.values():
     try:
@@ -40,10 +43,10 @@ def fig_size(width=None, height=None, ratio=None):
     Parameters
     ----------
     width : float, default height / ratio
-        Figure width as a fraction of its rc value.
+        Figure width as a fraction of its :rc:`figure.figsize` value.
     height : float, default width * ratio
-        Figure height as a fraction of its rc value.
-    ratio : float, default None
+        Figure height as a fraction of its :rc:`figure.figsize` value.
+    ratio : float, default `None`
         Height to width ratio, ignored if both size values are given.
 
     Returns
@@ -67,18 +70,18 @@ def get_fig_size(fig, **savefig_kw):
 
     Contrary to the fig.get_size_inches method, returns the show-time
     (rather than draw-time) values. The result depends on file format
-    and backend. Supported formats: see `SUPPORTED_FORMATS`.
+    and backend. Supported formats: see SUPPORTED_FORMATS.
 
     Parameters
     ----------
-    fig : matplotlib.figure.Figure
+    fig : :class:`matplotlib.figure.Figure`
         Figure whose size is to be determined.
     **savefig_kw :
-        Keyword arguments for fig.savefig.
+        Keyword arguments for :func:`matplotlib.figure.Figure.savefig`.
 
     Returns
     -------
-    tuple(float)
+    tuple[float]
         Actual width and height of the saved figure, in inches.
     """
     dpi = VECTOR_DPI  # when no dpi information available (vector files)
