@@ -121,9 +121,9 @@ def get_fig_size(fig, **savefig_kw):
     return tuple(np.asarray(size, dtype=float) / dpi)
 
 
-def set_fig_size(fig, width=None, height=None, ratio=None, **savefig_kw):
+def set_fig_size(fig, size=None, **savefig_kw):
     """
-    Sets the actual figure size, specified in figure.figsize units.
+    Sets the actual saved figure size.
 
     Contrary to the fig.set_size_inches method, this tries to fix the
     show-time width and height by guessing appropriate draw-time values.
@@ -133,16 +133,12 @@ def set_fig_size(fig, width=None, height=None, ratio=None, **savefig_kw):
     ----------
     fig : matplotlib.figure.Figure
         Figure whose size has to be adjusted.
-    width, height, ratio :
-        See docstring for fig_size arguments.
+    size : float, default ``fig.get_size_inches()``
+        Desired save-time figure size, in inches.
     **savefig_kw :
-        Keyword arguments for fig.savefig.
+        Keyword arguments for :meth:`~matplotlib.figure.Figure.savefig`.
     """
-    if width is None and height is None:
-        size = fig.get_size_inches()
-    else:
-        size = fig_size(width, height, ratio)
-    size = np.asarray(size)
+    size = np.asarray(size or fig.get_size_inches())
     draw = [np.zeros(2), size]
     show = [np.zeros(2)]
 
