@@ -59,16 +59,17 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
         The destination path, with extension.
     """
     fmt = savefig_kw.get('format') or mpl.rcParams['savefig.format']
-    if not hasattr(dest, 'write'):
-        dest = [mpl.rcParams['savefig.directory'], dest or fig.get_label()]
+    try:
+        dest = Path(dest or fig.get_label())
+    except TypeError:
+        path = Path(dest.name)
+    else:
         # last absolute path taken as anchor
-        dest = Path(*(Path(p).expanduser() for p in dest))
+        anchor = mpl.rcParams['savefig.directory']
+        dest = Path(*(Path(p).expanduser() for p in (anchor, dest)))
         dest = dest.with_suffix(f'{dest.suffix}.{fmt}')
         dest.parent.mkdir(parents=True, exist_ok=True)
         path = dest
-    else:
-        path = Path(dest.name)
-        print(path)
     path = path.resolve()
 
     # git revision in metadata (matplotlib)
