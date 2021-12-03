@@ -2,8 +2,8 @@
 """
 Customizing matploltib style & behaviour.
 
-see https://matplotlib.org/stable/tutorials/introductory/customizing.html
-
+Consult :doc:`matplotlib:tutorials/introductory/customizing` for an
+introduction.
 """
 
 import matplotlib as mpl
@@ -16,15 +16,17 @@ STYLE_BLACKLIST_EXCLUDES = {'savefig.directory'}
 
 def use_style(style, reset=False):
     """
-    Wrapper around matplotlib.style.use that allows setting
+    Wrapper around :func:`matplotlib.style.use` that allows setting
     :rc:`savefig.directory` via style sheet.
 
     Parameters
     ----------
-    style : str, dict, Path or list
-        A style specification as described in matplotlib.style.use.
+    style : str, dict, path-like or list
+        A style specification as described in
+        :func:`matplotlib.style.use`.
     reset : bool, default False
-        Restore the rc params from matplotlib's internal default style.
+        Restore the rc params from matplotlib's internal default style
+        before applying the specified style.
     """
     # TODO: basic (!) support for dynamic configuration
     mpl.style.core.STYLE_BLACKLIST -= STYLE_BLACKLIST_EXCLUDES

@@ -1,6 +1,6 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
 """
-mplotter: matplotlib plotter
+mplotter: matplotlib plotter.
 
 Plotting helpers and styles for matplotlib & TeX projects.
 """
@@ -15,9 +15,6 @@ from . import annotating
 from . import coloring
 
 __all__ = ['save_fig']
-#  saving.__all__ + sizing.__all__ + styling.__all__ + [
-#     'saving', 'sizing', 'styling', 'annotating', 'coloring'
-# ]
 
 __version__ = '0.1.0'
 """str: Package version."""

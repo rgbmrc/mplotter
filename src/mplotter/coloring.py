@@ -3,8 +3,8 @@
 Coloring figure elements.
 
 Defines a function generating monochromatic colormaps with transparency.
-For further colormaps and palettes check out the
-`palettable library <https://jiffyclub.github.io/palettable/>`_.
+For further colormaps and palettes check out the `palettable library
+<https://jiffyclub.github.io/palettable/>`_.
 """
 
 import matplotlib as mpl
@@ -18,16 +18,17 @@ def lucid_cmap(c, name=None, **kwargs):
 
     Parameters
     ----------
-    c : `color-like <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+    c : :doc:`color-like <matplotlib:tutorials/colors/colors>`
         The color corresponding to full saturation.
     name : str, default c (if a str) or hex(c)
         Colormap name prefix, '_lucid' is appended.
     **kwargs:
-        Keyword arguments passed to matplotlib.colors.LinearSegmentedColormap
+        Keyword arguments passed to
+        :class:`~matplotlib.colors.LinearSegmentedColormap`
 
     Returns
     -------
-    matplotlib.colors.LinearSegmentedColormap
+    :class:`~matplotlib.colors.LinearSegmentedColormap`
         Lucid colormap.
     """
     colors = [mpl.colors.to_rgba(c, alpha=a) for a in (0, 1)]

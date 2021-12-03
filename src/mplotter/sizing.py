@@ -1,6 +1,48 @@
 # Copyright (c) 2021 Marco Rigobello, MIT License
 """
 Adjusting the size of matplotlib figures.
+
+When preparing complex documents consisting of text and visual elements,
+it is often crucial to:
+
+1.  Fit a figure in a specific region of the document.
+
+2.  Avoid any rescaling of the figure upon inclusion, so that its fixed
+    size components (e.g. text elements) are preserved.
+
+To this aim,
+
+1.  It might be convenient to use the size of other layout elements of
+    the document (line width, slide height, etc.) as length units.
+
+2.  It is necessary to ensure that a figure is sized accurately.
+
+This module provides helper functions to achieve both these goals.
+Precisely,
+
+1.  The function :func:`fig_size` allows to use the values (in inches)
+    in :rc:`figure.figsize` as custom width and height units, converting
+    a length specified in these units to its value in inches (standard
+    matplotlib's unit). The latter can then be used as input elsewhere.
+
+    When typesetting a TeX document, the size (in pt) of many layout
+    elements can be assessed including the `command
+    <https://www.tug.org/utilities/plain/cseq.html#showthe-rp>`_
+    ``\showthe\<somelength>`` and inspecting the compiler log;
+    ``<somelength>`` is the name of the layout element (for a list of
+    common possibilities see `this table
+    <https://www.overleaf.com/learn/latex/Lengths_in_LaTeX#Lengths>`_).
+    To convert the output to inches, simply divide by ``72.27``.
+
+
+2.  The function :func:`get_fig_size` retrives the save-time size of a
+    figure (for a specific backend). Calling this function iteratively,
+    :func:`set_fig_size` attemps to enforce a given save-time size for
+    a figure, adjusting its draw-time size.
+
+    Built-in support is available only for a handful of vector formats,
+    listed in :data:`SUPPORTED_FORMATS`. For other file formats, extra
+    dependencies are required (see :data:`EXTRAS_FORMATS`).
 """
 
 from importlib import import_module
@@ -14,7 +56,7 @@ from mplotter.saving import save_fig
 __all__ = ['fig_size', 'get_fig_size', 'set_fig_size']
 
 SUPPORTED_FORMATS = {'eps', 'ps', 'svg'}
-"""set[str]: Default supported file formats by :func:`get_fig_size`."""
+"""set[str]: Supported file formats by :func:`get_fig_size`."""
 
 EXTRAS_FORMATS = {
     'pdf': ('pikepdf', {'pdf'}),
@@ -33,20 +75,20 @@ for pkg, fmts in EXTRAS_FORMATS.values():
 VECTOR_DPI = 72.0
 
 
-def fig_size(width=None, height=None, ratio=None):
+def fig_size(width=None, height=None, ratio=0.618):
     """
-    Converts savefig.figsize units to inches.
+    Converts :rc:`savefig.figsize` units to inches.
 
     For figures with axes of fixed aspect ratio, width and height are
     to be interpreted as maximum values.
 
     Parameters
     ----------
-    width : float, default height / ratio
+    width : float, default :obj:`height / ratio`
         Figure width as a fraction of its :rc:`figure.figsize` value.
-    height : float, default width * ratio
+    height : float, default :obj:`width * ratio`
         Figure height as a fraction of its :rc:`figure.figsize` value.
-    ratio : float, default `None`
+    ratio : float, default golden ratio ``0.618``
         Height to width ratio, ignored if both size values are given.
 
     Returns
@@ -66,18 +108,18 @@ def fig_size(width=None, height=None, ratio=None):
 
 def get_fig_size(fig, **savefig_kw):
     """
-    Measures the actual figure size.
+    Measures the actual saved figure size.
 
-    Contrary to the fig.get_size_inches method, returns the show-time
-    (rather than draw-time) values. The result depends on file format
-    and backend. Supported formats: see SUPPORTED_FORMATS.
+    Contrary to the fig.get_size_inches method, returns the save-time
+    (rather than draw-time) values. The result depends on the backend.
+    Supported formats: see :data:`SUPPORTED_FORMATS`.
 
     Parameters
     ----------
-    fig : :class:`matplotlib.figure.Figure`
+    fig : :class:`~matplotlib.figure.Figure`
         Figure whose size is to be determined.
     **savefig_kw :
-        Keyword arguments for :func:`matplotlib.figure.Figure.savefig`.
+        Keyword arguments for :meth:`~matplotlib.figure.Figure.savefig`.
 
     Returns
     -------
@@ -102,8 +144,7 @@ def get_fig_size(fig, **savefig_kw):
                     break
         elif fmt == 'svg':
             from xml.dom import minidom
-            doc = minidom.parse(f)
-            doc = doc.documentElement
+            doc = minidom.parse(f).documentElement
             size = [
                 doc.getAttribute(key).replace('pt', '')
                 for key in ('width', 'height')
@@ -125,13 +166,13 @@ def set_fig_size(fig, size=None, **savefig_kw):
     """
     Sets the actual saved figure size.
 
-    Contrary to the fig.set_size_inches method, this tries to fix the
-    show-time width and height by guessing appropriate draw-time values.
-    The result depends on file format and backend.
+    Contrary to the :meth:`~matplotlib.figure.Figure.set_size_inches`,
+    this tries to fix the save-time width and height by guessing
+    appropriate draw-time values. The result depends on the backend.
 
     Parameters
     ----------
-    fig : matplotlib.figure.Figure
+    fig : :class:`~matplotlib.figure.Figure`
         Figure whose size has to be adjusted.
     size : float, default ``fig.get_size_inches()``
         Desired save-time figure size, in inches.
