@@ -15,9 +15,9 @@ Run :code:`pip install .` in the same folder as this README file.
 Extra dependencies
 ~~~~~~~~~~~~~~~~~~
 
-- `pdf`: enables figure sizing functionality for pdf files;
-- `raster`: enables figure sizing functionality for raster files;
-- `dev`: for development, see below.
+- *pdf*: enables figure sizing functionality for pdf files;
+- *raster*: enables figure sizing functionality for raster files;
+- *dev*: for development, see below.
 
 The desired extras can be included by listing them in the install
 command, e.g. ``pip install .[pdf,raster]``.
