@@ -4,7 +4,7 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
-import src.mplotter as plotter
+import mplotter as plotter
 
 # capture mplotter logs
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
