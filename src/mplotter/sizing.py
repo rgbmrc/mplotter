@@ -133,10 +133,11 @@ def get_fig_size(fig, **savefig_kw):
     with NamedTemporaryFile(suffix=f'.{fmt}') as f:
         save_fig(fig, f, close=False, **savefig_kw)
         f.seek(0)
+        size = None
         if fmt == 'pdf':
             import pikepdf
             with pikepdf.open(f) as doc:
-                box = list(doc[0].trimbox)
+                box = list(doc.pages[0].trimbox)
         elif fmt in ('ps', 'eps'):
             for line in f:
                 if line.startswith('%%HiResBoundingBox:'):
