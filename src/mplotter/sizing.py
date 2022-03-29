@@ -53,14 +53,14 @@ import matplotlib as mpl
 
 from mplotter.saving import save_fig
 
-__all__ = ['fig_size', 'get_fig_size', 'set_fig_size']
+__all__ = ["fig_size", "get_fig_size", "set_fig_size"]
 
-SUPPORTED_FORMATS = {'eps', 'ps', 'svg'}
+SUPPORTED_FORMATS = {"eps", "ps", "svg"}
 """set[str]: Supported file formats by :func:`get_fig_size`."""
 
 EXTRAS_FORMATS = {
-    'pdf': ('pikepdf', {'pdf'}),
-    'raster': ('PIL', {'png', 'jpg', 'jpeg', 'tif', 'tiff'}),
+    "pdf": ("pikepdf", {"pdf"}),
+    "raster": ("PIL", {"png", "jpg", "jpeg", "tif", "tiff"}),
 }
 """set[str]: Optional supported file formats by :func:`get_fig_size`."""
 
@@ -96,7 +96,7 @@ def fig_size(width=None, height=None, ratio=0.618):
     tuple[float]
         Figure width and height, in inches.
     """
-    w, h = mpl.rcParams['figure.figsize']
+    w, h = mpl.rcParams["figure.figsize"]
     if width:
         width *= w
     if height:
@@ -127,35 +127,37 @@ def get_fig_size(fig, **savefig_kw):
         Actual width and height of the saved figure, in inches.
     """
     dpi = VECTOR_DPI  # when no dpi information available (vector files)
-    fmt = savefig_kw.get('format', mpl.rcParams['savefig.format']).lower()
+    fmt = savefig_kw.get("format", mpl.rcParams["savefig.format"]).lower()
     if fmt not in SUPPORTED_FORMATS:
-        raise ValueError('Unsupported format.')
-    with NamedTemporaryFile(suffix=f'.{fmt}') as f:
+        raise ValueError("Unsupported format.")
+    with NamedTemporaryFile(suffix=f".{fmt}") as f:
         save_fig(fig, f, close=False, **savefig_kw)
         f.seek(0)
         size = None
-        if fmt == 'pdf':
+        if fmt == "pdf":
             import pikepdf
+
             with pikepdf.open(f) as doc:
                 box = list(doc.pages[0].trimbox)
-        elif fmt in ('ps', 'eps'):
+        elif fmt in ("ps", "eps"):
             for line in f:
-                if line.startswith('%%HiResBoundingBox:'):
+                if line.startswith("%%HiResBoundingBox:"):
                     box = line.split()[-4:]
                     break
-        elif fmt == 'svg':
+        elif fmt == "svg":
             from xml.dom import minidom
+
             doc = minidom.parse(f).documentElement
             size = [
-                doc.getAttribute(key).replace('pt', '')
-                for key in ('width', 'height')
+                doc.getAttribute(key).replace("pt", "") for key in ("width", "height")
             ]
         else:
             from PIL import Image
+
             with Image.open(f, formats=[fmt]) as im:
                 size = im.size
-            dpi = savefig_kw.get('dpi', mpl.rcParams['savefig.dpi'])
-            if dpi == 'figure':
+            dpi = savefig_kw.get("dpi", mpl.rcParams["savefig.dpi"])
+            if dpi == "figure":
                 dpi = fig.dpi
     if not size:
         box = np.asarray(box, dtype=float)
@@ -191,6 +193,8 @@ def set_fig_size(fig, size=None, **savefig_kw):
     for _ in range(2):
         fig.set_size_inches(draw[-1])
         show.append(get_fig_size(fig, **savefig_kw))
+        if np.allclose(show[-1], size):
+            break
         draw.append(interpolate())
 
     fig.set_size_inches(draw[-1])
