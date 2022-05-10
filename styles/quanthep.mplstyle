@@ -19,6 +19,10 @@ xtick.major.size: 5
 xtick.minor.size: 3
 ytick.major.size: 5
 ytick.minor.size: 3
+xtick.major.pad: 5
+xtick.minor.pad: 5
+ytick.major.pad: 5
+ytick.minor.pad: 5
 
 # SET FONT SIZE VALUE
 # to append to a STYLE.mplstyle file run
@@ -43,7 +47,6 @@ figure.edgecolor: C0
 grid.color: C0
 hatch.color: C0
 lines.color: C0
-lines.markeredgecolor: C0
 patch.edgecolor: C0
 savefig.edgecolor: C0
 xtick.color: C0
@@ -52,21 +55,21 @@ ytick.color: C0
 # SET LINE WIDTH VALUE
 # to append to a STYLE.mplstyle file run
 # sed 's/1.2/VALUE/' linewidth.mplstyle >> STYLE.mplstyle
-patch.linewidth: 1.2
-axes.linewidth: 1.2
-boxplot.boxprops.linewidth: 1.2
-boxplot.capprops.linewidth: 1.2
-boxplot.flierprops.linewidth: 1.2
-boxplot.flierprops.markeredgewidth: 1.2
-boxplot.meanprops.linewidth: 1.2
-boxplot.medianprops.linewidth: 1.2
-boxplot.whiskerprops.linewidth: 1.2
-contour.linewidth: 1.2
-grid.linewidth: 1.2
-hatch.linewidth: 1.2
-lines.linewidth: 1.2
-lines.markeredgewidth: 1.2
-xtick.major.width: 1.2
-xtick.minor.width: 1.2
-ytick.major.width: 1.2
-ytick.minor.width: 1.2
+patch.linewidth: 1.5
+axes.linewidth: 1.5
+boxplot.boxprops.linewidth: 1.5
+boxplot.capprops.linewidth: 1.5
+boxplot.flierprops.linewidth: 1.5
+boxplot.flierprops.markeredgewidth: 1.5
+boxplot.meanprops.linewidth: 1.5
+boxplot.medianprops.linewidth: 1.5
+boxplot.whiskerprops.linewidth: 1.5
+contour.linewidth: 1.5
+grid.linewidth: 1.5
+hatch.linewidth: 1.5
+lines.linewidth: 1.5
+lines.markeredgewidth: 1.5
+xtick.major.width: 1.5
+xtick.minor.width: 1.5
+ytick.major.width: 1.5
+ytick.minor.width: 1.5
