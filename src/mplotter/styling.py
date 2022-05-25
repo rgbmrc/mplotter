@@ -9,9 +9,9 @@ introduction.
 import matplotlib as mpl
 import matplotlib.style.core
 
-__all__ = ['use_style']
+__all__ = ["use_style"]
 
-STYLE_BLACKLIST_EXCLUDES = {'savefig.directory'}
+STYLE_BLACKLIST_EXCLUDES = {"savefig.directory"}
 
 
 def use_style(style, reset=False):

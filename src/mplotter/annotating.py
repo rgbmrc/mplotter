@@ -14,14 +14,14 @@ import numpy as np
 import matplotlib as mpl
 
 __all__ = [
-    'enum_axes',
-    'SignedScalarFormatter',
-    'SSDecimalFormatter',
-    'SSFractionFormatter',
+    "enum_axes",
+    "SignedScalarFormatter",
+    "SSDecimalFormatter",
+    "SSFractionFormatter",
 ]
 
 
-def enum_axes(axs, loc, fmt='({})', enum='letters', **at_kw):
+def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
     """
     Labels subfigures (axes).
 
@@ -46,30 +46,28 @@ def enum_axes(axs, loc, fmt='({})', enum='letters', **at_kw):
     """
     axs = np.asanyarray(axs)
 
-    if enum == 'letters':
+    if enum == "letters":
         enum = ascii_lowercase
-    elif enum == 'numbers':
+    elif enum == "numbers":
         enum = count(start=1)
 
-    at_kw.setdefault('frameon', False)
-    at_kw.setdefault('borderpad', 0)
+    at_kw.setdefault("frameon", False)
+    at_kw.setdefault("borderpad", 0)
 
     return [
         ax.add_artist(mpl.offsetbox.AnchoredText(fmt.format(e), loc, **at_kw))
-        for e,
-        ax in zip(enum, axs.flat)
+        for e, ax in zip(enum, axs.flat)
     ]
 
 
 class ScaledFormatter(mpl.ticker.Formatter):
-
     def __init__(self, unit=1, squeeze=True):
         super().__init__()
         try:
             self.base, self.mark = unit
         except TypeError:
             self.base = unit
-            self.mark = ''
+            self.mark = ""
         self.squeeze = squeeze
 
     def __call__(self, val, pos=None):
@@ -77,14 +75,13 @@ class ScaledFormatter(mpl.ticker.Formatter):
         mark = self.mark
         if self.squeeze:
             if val == 0:
-                mark = ''
+                mark = ""
             elif val == 1 and self.mark:
-                val = ''
+                val = ""
         return val, mark
 
 
 class SignedFormatter(mpl.ticker.Formatter):
-
     def __init__(self, sign=None, sign_zero=True):
         super().__init__()
         self._init_sign = sign
@@ -99,15 +96,14 @@ class SignedFormatter(mpl.ticker.Formatter):
 
     def __call__(self, val, pos=None):
         if val < 0:
-            return '-'
+            return "-"
         elif self.sign and (val > 0 or self.sign_zero):
-            return '+'
+            return "+"
         else:
-            return ''
+            return ""
 
 
 class SgnScalarFormatter(SignedFormatter, mpl.ticker.ScalarFormatter):
-
     def __init__(self, sign=None, **kwargs):
         SignedFormatter.__init__(self, sign)
         mpl.ticker.ScalarFormatter.__init__(self, **kwargs)
@@ -117,11 +113,10 @@ class SgnScalarFormatter(SignedFormatter, mpl.ticker.ScalarFormatter):
         mpl.ticker.ScalarFormatter.set_locs(self, locs)
         if self.sign:
             # first replace is likely pointless
-            self.format = self.format.replace('%+', '%').replace('%', '%+')
+            self.format = self.format.replace("%+", "%").replace("%", "%+")
 
 
 class SSDecimalFormatter(SignedFormatter, ScaledFormatter):
-
     def __init__(self, digits, sign=None, sign_zero=True, unit=1):
         SignedFormatter.__init__(self, sign, sign_zero)
         ScaledFormatter.__init__(self, unit, squeeze=False)
@@ -130,12 +125,11 @@ class SSDecimalFormatter(SignedFormatter, ScaledFormatter):
     def __call__(self, val, pos=None):
         sgn = SignedFormatter.__call__(self, val, pos)
         val, mark = ScaledFormatter.__call__(self, abs(val), pos)
-        fmt = '${sgn}{val:' + f'.{self.digits}f' + '}{mark}$'
+        fmt = "${sgn}{val:" + f".{self.digits}f" + "}{mark}$"
         return fmt.format(sgn=sgn, val=val, mark=mark)
 
 
 class SSFractionFormatter(SignedFormatter, ScaledFormatter):
-
     def __init__(
         self,
         D,
@@ -151,16 +145,15 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         self.D = D
         self.frac = frac
         self.format = {
-            'int':
-                r'${sgn}{N}{mark}$',
-            'frac':
-                r'${sgn}\frac{{{N}{mark}}}{{{D}}}$'
-                if frac else r'${sgn}{N}{mark}/{D}$',
+            "int": r"${sgn}{N}{mark}$",
+            "frac": r"${sgn}\frac{{{N}{mark}}}{{{D}}}$"
+            if frac
+            else r"${sgn}{N}{mark}/{D}$",
         }
-        if mpl.rcParams['text.usetex']:
-            vspace = self.format['frac']
-            vspace = vspace.format(sgn='', N=1, D=1, mark=self.mark)
-            self.format['int'] += r'\vphantom{{{}}}'.format(vspace)
+        if mpl.rcParams["text.usetex"]:
+            vspace = self.format["frac"]
+            vspace = vspace.format(sgn="", N=1, D=1, mark=self.mark)
+            self.format["int"] += r"\vphantom{{{}}}".format(vspace)
 
     def set_axis(self, axis):
         super().set_axis(axis)
@@ -180,7 +173,7 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         except TypeError:
             pass
         if D == 1:
-            fmt = self.format['int']
+            fmt = self.format["int"]
         else:
-            fmt = self.format['frac']
+            fmt = self.format["frac"]
         return fmt.format(sgn=sgn, N=N, D=D, mark=mark)

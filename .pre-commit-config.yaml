@@ -1,30 +1,31 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
--   repo: https://github.com/Lucas-C/pre-commit-hooks
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
     rev: v1.1.10
     hooks:
-    -   id: insert-license
+      - id: insert-license
         args: [--license-filepath, src/license_header.txt]
         files: 'src/mplotter'
--   repo: https://github.com/asottile/add-trailing-comma
+  - repo: https://github.com/asottile/add-trailing-comma
     rev: v2.2.1
     hooks:
-    -   id: add-trailing-comma
+      - id: add-trailing-comma
         args: [--py36-plus]
--   repo: https://github.com/myint/docformatter
+  - repo: https://github.com/myint/docformatter
     rev: v1.4
     hooks:
-    -   id: docformatter
-        args: [--in-place, --wrap-summaries, "72", --pre-summary-newline]
+      - id: docformatter
+        args: [--in-place, --wrap-summaries, '72', --pre-summary-newline]
         files: 'src/mplotter'
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: end-of-file-fixer
--   repo: https://github.com/pre-commit/mirrors-yapf
-    rev: v0.31.0
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
     hooks:
-    -   id: yapf
-        additional_dependencies: [toml]
+      - id: black
+default_language_version:
+  python: python3.9

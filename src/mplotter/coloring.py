@@ -9,7 +9,7 @@ For further colormaps and palettes check out the `palettable library
 
 import matplotlib as mpl
 
-__all__ = ['lucid_cmap']
+__all__ = ["lucid_cmap"]
 
 
 def lucid_cmap(c, name=None, **kwargs):
@@ -33,6 +33,6 @@ def lucid_cmap(c, name=None, **kwargs):
     """
     colors = [mpl.colors.to_rgba(c, alpha=a) for a in (0, 1)]
     name = name or (c if isinstance(c, str) else mpl.colors.to_hex(c))
-    name += '_lucid'
+    name += "_lucid"
     cmap = mpl.colors.LinearSegmentedColormap.from_list(name, colors, **kwargs)
     return cmap
