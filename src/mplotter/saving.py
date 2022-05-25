@@ -15,13 +15,14 @@ saved figure. Some file formats are supported only through `exiftool
 ``/svg/metadata/RDF/Work/creator/Agent/title``.
 """
 
+from contextlib import contextmanager
 from logging import getLogger
 from subprocess import run
 from pathlib import Path
 
 import matplotlib as mpl
 
-__all__ = ['save_fig']
+__all__ = ['fig_dir', 'save_fig']
 
 logger = getLogger(__package__)
 
@@ -36,6 +37,14 @@ except FileNotFoundError:
     exiftool = False
 else:
     exiftool = True
+
+
+@contextmanager
+def fig_dir(dest):
+    anchor = mpl.rcParams["savefig.directory"]
+    dest = Path(*(Path(p).expanduser() for p in (anchor, dest)))
+    with mpl.rc_context({"savefig.directory": str(dest)}):
+        yield
 
 
 def save_fig(fig, dest=None, close=True, **savefig_kw):
