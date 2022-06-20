@@ -12,6 +12,7 @@ from string import ascii_lowercase
 
 import numpy as np
 import matplotlib as mpl
+from matplotlib.ticker import Formatter, ScalarFormatter
 
 __all__ = [
     "enum_axes",
@@ -60,7 +61,7 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
     ]
 
 
-class ScaledFormatter(mpl.ticker.Formatter):
+class ScaledFormatter(Formatter):
     def __init__(self, unit=1, squeeze=True):
         super().__init__()
         try:
@@ -81,7 +82,7 @@ class ScaledFormatter(mpl.ticker.Formatter):
         return val, mark
 
 
-class SignedFormatter(mpl.ticker.Formatter):
+class SignedFormatter(Formatter):
     def __init__(self, sign=None, sign_zero=True):
         super().__init__()
         self._init_sign = sign
@@ -103,14 +104,14 @@ class SignedFormatter(mpl.ticker.Formatter):
             return ""
 
 
-class SgnScalarFormatter(SignedFormatter, mpl.ticker.ScalarFormatter):
+class SgnScalarFormatter(ScalarFormatter, SignedFormatter):
     def __init__(self, sign=None, **kwargs):
         SignedFormatter.__init__(self, sign)
-        mpl.ticker.ScalarFormatter.__init__(self, **kwargs)
+        ScalarFormatter.__init__(self, **kwargs)
 
     def set_locs(self, locs):
         SignedFormatter.set_locs(self, locs)
-        mpl.ticker.ScalarFormatter.set_locs(self, locs)
+        ScalarFormatter.set_locs(self, locs)
         if self.sign:
             # first replace is likely pointless
             self.format = self.format.replace("%+", "%").replace("%", "%+")
