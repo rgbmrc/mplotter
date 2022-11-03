@@ -39,6 +39,10 @@ else:
     exiftool = True
 
 
+def get_fig_label(fig):
+    return fig.get_label() or fig.number
+
+
 @contextmanager
 def fig_dir(dest):
     anchor = mpl.rcParams["savefig.directory"]
@@ -101,7 +105,7 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
         metadata.setdefault("Creator", git_rev)
 
     fig.savefig(dest, **savefig_kw)
-    logger.info(f"Plotted figure {fig.number} to {path}.")
+    logger.info(f"Plotted figure {get_fig_label(fig)} to {path}.")
 
     # git revision in metadata (exiftool)
     # TODO: maybe replacable with exif pil_kwargs?
@@ -112,7 +116,7 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
     if close:
         import matplotlib.pyplot as plt
 
-        logger.info(f"Closed figure {fig.number}.")
+        logger.debug(f"Closed figure {get_fig_label(fig)}.")
         plt.close(fig)
 
     return path

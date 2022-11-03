@@ -181,6 +181,11 @@ def set_fig_size(fig, size=None, **savefig_kw):
         Desired save-time figure size, in inches.
     **savefig_kw :
         Keyword arguments for :meth:`~matplotlib.figure.Figure.savefig`.
+
+    Returns
+    -------
+    tuple[float]
+        Draw-time width and height of the figure, in inches.
     """
     size = np.asarray(size or fig.get_size_inches())
     draw = [np.zeros(2), size]
@@ -198,3 +203,4 @@ def set_fig_size(fig, size=None, **savefig_kw):
         draw.append(interpolate())
 
     fig.set_size_inches(draw[-1])
+    return draw[-1]
