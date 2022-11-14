@@ -40,6 +40,14 @@ def lucid_cmap(c, name=None, **kwargs):
 
 
 def truncated_cmap(cmap, lo=0.0, hi=1.0, N=256):
+    """
+    Truncates a LinearSegmentedColormap colormap.
+
+    Returns
+    -------
+    :class:`~matplotlib.colors.LinearSegmentedColormap`
+        The truncated colormap.
+    """
     cmap = mpl.cm.get_cmap(cmap)
     new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
         f"{cmap.name}[{lo:.2f}:{hi:.2f}:{N}j]",

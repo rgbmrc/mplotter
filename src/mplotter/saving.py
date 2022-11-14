@@ -39,15 +39,45 @@ else:
     exiftool = True
 
 
+def _resolve_path(path=None):
+    """
+    Resolves an absolute or relative path.
+
+    User constructs are expanded and :rc:`savefig.directory` is used as anchor.
+
+    Parameters
+    ----------
+    path : str or path-like, default '.'
+        The path to resolve, absolute or relative.
+
+    Returns
+    -------
+    :class:`pathlib.Path`
+        The resolved path.
+    """
+    segments = (mpl.rcParams["savefig.directory"], path or ".")
+    return Path(*(Path(p).expanduser() for p in segments))
+
+
 def get_fig_label(fig):
+    """Returns a figure's label or, as a fallback, its number."""
     return fig.get_label() or fig.number
 
 
 @contextmanager
 def fig_dir(dest):
-    anchor = mpl.rcParams["savefig.directory"]
-    dest = Path(*(Path(p).expanduser() for p in (anchor, dest)))
-    with mpl.rc_context({"savefig.directory": str(dest)}):
+    """
+    A context manager for temporarily changing the plotting directory.
+
+    Sets :rc:`savefig.directory` via :meth:`~matplotlib.rc_context`.
+
+    Parameters
+    ----------
+    dest : str or path-like
+        The new destination directory. If a relative path,
+        :rc:`savefig.directory` is taken as anchor.
+    """
+    with mpl.rc_context({"savefig.directory": str(_resolve_path(dest))}):
         yield
 
 
@@ -87,12 +117,10 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
     try:
         dest = Path(dest or fig.get_label())
     except TypeError:
+        # file-like dest, path stored for logging reasons
         path = Path(dest.name)
     else:
-        # last absolute path taken as anchor
-        anchor = mpl.rcParams["savefig.directory"]
-        dest = Path(*(Path(p).expanduser() for p in (anchor, dest)))
-        dest = dest.with_suffix(f"{dest.suffix}.{fmt}")
+        dest = _resolve_path(dest).with_suffix(f"{dest.suffix}.{fmt}")
         dest.parent.mkdir(parents=True, exist_ok=True)
         path = dest
     path = path.resolve()
