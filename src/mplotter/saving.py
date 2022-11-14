@@ -69,7 +69,7 @@ def fig_dir(dest):
     """
     A context manager for temporarily changing the plotting directory.
 
-    Sets :rc:`savefig.directory` via :meth:`~matplotlib.rc_context`.
+    Sets :rc:`savefig.directory` via :func:`~matplotlib.rc_context`.
 
     Parameters
     ----------
