@@ -52,5 +52,6 @@ def truncated_cmap(cmap, lo=0.0, hi=1.0, N=256):
     new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
         f"{cmap.name}[{lo:.2f}:{hi:.2f}:{N}j]",
         cmap(np.linspace(lo, hi, N)),
+        N=N,
     )
     return new_cmap
