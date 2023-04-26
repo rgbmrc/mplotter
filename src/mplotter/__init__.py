@@ -16,5 +16,5 @@ from . import coloring
 
 __all__ = ["save_fig"]
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 """str: Package version."""
