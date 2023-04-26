@@ -133,7 +133,7 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
         metadata.setdefault("Creator", git_rev)
 
     fig.savefig(dest, **savefig_kw)
-    logger.info(f"Plotted figure {get_fig_label(fig)} to {path}.")
+    logger.info(f"Plotted figure {get_fig_label(fig)} to {path}")
 
     # git revision in metadata (exiftool)
     # TODO: maybe replacable with exif pil_kwargs?
@@ -144,7 +144,7 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
     if close:
         import matplotlib.pyplot as plt
 
-        logger.debug(f"Closed figure {get_fig_label(fig)}.")
+        logger.debug(f"Closed figure {get_fig_label(fig)}")
         plt.close(fig)
 
     return path
