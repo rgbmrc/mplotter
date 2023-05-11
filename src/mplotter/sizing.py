@@ -38,14 +38,16 @@ Precisely,
 2.  The function :func:`get_fig_size` retrives the save-time size of a
     figure (for a specific backend). Calling this function iteratively,
     :func:`set_fig_size` attemps to enforce a given save-time size for
-    a figure, adjusting its draw-time size.
+    a figure, adjusting its draw-time size. Often only one of th
 
     Built-in support is available only for a handful of vector formats,
     listed in :data:`SUPPORTED_FORMATS`. For other file formats, extra
     dependencies are required (see :data:`EXTRAS_FORMATS`).
 """
 
+from collections import deque
 from importlib import import_module
+from logging import getLogger
 from tempfile import NamedTemporaryFile
 
 import numpy as np
@@ -54,6 +56,8 @@ import matplotlib as mpl
 from mplotter.saving import save_fig
 
 __all__ = ["fig_size", "get_fig_size", "set_fig_size"]
+
+logger = getLogger(__package__)
 
 SUPPORTED_FORMATS = {"eps", "ps", "svg"}
 """set[str]: Supported file formats by :func:`get_fig_size`."""
@@ -73,6 +77,12 @@ for pkg, fmts in EXTRAS_FORMATS.values():
         SUPPORTED_FORMATS |= fmts
 
 VECTOR_DPI = 72.0
+
+MAX_SIZING_ATTEMPTS = 5
+"""int: Maximum number of sizing attempts by :func:`set_fig_size`."""
+
+SIZING_TOLERANCE = 1.0e-3
+"""float: Relative tolerance of :func:`set_fig_size`."""
 
 
 def fig_size(width=None, height=None, ratio=0.618):
@@ -123,7 +133,7 @@ def get_fig_size(fig, **savefig_kw):
 
     Returns
     -------
-    tuple[float]
+    :class:`~numpy.ndarray`
         Actual width and height of the saved figure, in inches.
     """
     dpi = VECTOR_DPI  # when no dpi information available (vector files)
@@ -162,10 +172,10 @@ def get_fig_size(fig, **savefig_kw):
     if not size:
         box = np.asarray(box, dtype=float)
         size = np.diff(box.reshape((2, 2)), axis=0).squeeze()
-    return tuple(np.asarray(size, dtype=float) / dpi)
+    return np.asarray(size, dtype=float) / dpi
 
 
-def set_fig_size(fig, size=None, **savefig_kw):
+def set_fig_size(fig, size=None, which="both", **savefig_kw):
     """
     Sets the actual saved figure size.
 
@@ -179,22 +189,39 @@ def set_fig_size(fig, size=None, **savefig_kw):
         Figure whose size has to be adjusted.
     size : float, default ``fig.get_size_inches()``
         Desired save-time figure size, in inches.
+    which : {"x", "y", "both"}, default "both"
+        Weather to fix the absolute value of the width, heigth or both.
+        If "x" or "y" is specified, the other dimension will be adjusted
+        in such a way to keep the original proportions of the figure.
     **savefig_kw :
         Keyword arguments for :meth:`~matplotlib.figure.Figure.savefig`.
+
+    Returns
+    -------
+    tuple[float]
+        Draw-time width and height of the figure, in inches.
     """
     size = np.asarray(size or fig.get_size_inches())
-    draw = [np.zeros(2), size]
-    show = [np.zeros(2)]
+    draw = deque([np.zeros(2), size], maxlen=2)
+    show = deque([np.zeros(2)], maxlen=2)
 
     def interpolate():
-        coeff = np.diff(draw, axis=0) / np.diff(show, axis=0)
-        return draw[-1] + (size - show[-1]) * coeff[-1]
+        coeff = (draw[1] - draw[0]) / (show[1] - show[0])
+        return draw[1] + (size - show[1]) * coeff
 
-    for _ in range(2):
-        fig.set_size_inches(draw[-1])
+    for _ in range(MAX_SIZING_ATTEMPTS):
+        fig.set_size_inches(draw[1])
         show.append(get_fig_size(fig, **savefig_kw))
-        if np.allclose(show[-1], size):
+        if np.allclose(show[1], size, rtol=SIZING_TOLERANCE):
             break
         draw.append(interpolate())
+    else:
+        logger.warning("Sizing attempts exhausted without convergence")
 
-    fig.set_size_inches(draw[-1])
+    new_size = draw[-1]
+    if which in ("x", "y"):
+        which = int(which == "y")
+        other = int(not which)
+        new_size[other] = new_size[which] * size[other] / size[which]
+    fig.set_size_inches(new_size)
+    return new_size

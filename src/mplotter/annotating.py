@@ -57,7 +57,7 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
 
     return [
         ax.add_artist(mpl.offsetbox.AnchoredText(fmt.format(e), loc, **at_kw))
-        for e, ax in zip(enum, axs.flat)
+        for ax, e in zip(axs.flat, enum)
     ]
 
 

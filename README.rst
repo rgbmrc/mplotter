@@ -8,7 +8,7 @@ Plotting helpers and styles for matplotlib & TeX projects.
 Installation
 ------------
 
-Run :code:`pip install .` in the same folder as this README file.
+Obtain the github repository (e.g. via ``git clone``) and run :code:`pip install .` in the same folder as this README file.
 
 
 
@@ -49,7 +49,7 @@ for an overview of some best practices.
 
 To set up for development:
 
-- clone the github repository via
+- clone the github repository;
 - create a virtual environment via ``python -m venv <location>``
   and activate it;
 - install the library in editable mode with dev dependencies via
