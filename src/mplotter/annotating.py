@@ -154,11 +154,11 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         if mpl.rcParams["text.usetex"]:
             vspace = self.format["frac"]
             vspace = vspace.format(sgn="", N=1, D=1, mark=self.mark)
-            self.format["int"] += r"\vphantom{{{}}}".format(vspace)
+            self.format["int"] += r"\vphantom{{{{{}}}}}".format(vspace)
 
     def set_axis(self, axis):
         super().set_axis(axis)
-        axis.set_major_locator(mpl.ticker.MultipleLocator(self.base))
+        # axis.set_major_locator(mpl.ticker.MultipleLocator(self.base))
 
     def __call__(self, val, pos=None):
         D = self.D
