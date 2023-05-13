@@ -45,7 +45,9 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
     list[matplotlib.offsetbox.AnchoredText]
         The added labels.
     """
-    axs = np.asanyarray(axs)
+    if axs is not np.asanyarray(axs):
+        # works also for dict_values from, e.g., plt.subpolot_mosaic
+        axs = np.fromiter(axs, object)
 
     if enum == "letters":
         enum = ascii_lowercase
