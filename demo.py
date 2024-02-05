@@ -27,8 +27,8 @@ plt.xlabel("palette color number")
 
 # monochrome colormap with transparency
 plt.register_cmap(cmap=plotter.coloring.lucid_cmap("C0"))
-plt.subplot(gs[0])
 plt.rc("image", cmap="C0_lucid")  # make the default cmap
+plt.subplot(gs[0])
 dat = np.random.random((5, 7))
 plt.imshow(dat, aspect="auto")
 
