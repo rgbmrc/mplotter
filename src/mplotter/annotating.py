@@ -149,9 +149,9 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         self.frac = frac
         self.format = {
             "int": r"${sgn}{N}{mark}$",
-            "frac": r"${sgn}\frac{{{N}{mark}}}{{{D}}}$"
-            if frac
-            else r"${sgn}{N}{mark}/{D}$",
+            "frac": (
+                r"${sgn}\frac{{{N}{mark}}}{{{D}}}$" if frac else r"${sgn}{N}{mark}/{D}$"
+            ),
         }
         if mpl.rcParams["text.usetex"]:
             vspace = self.format["frac"]
