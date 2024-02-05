@@ -12,11 +12,12 @@ repos:
     hooks:
       - id: add-trailing-comma
         args: [--py36-plus]
-  - repo: https://github.com/myint/docformatter
+  - repo: https://github.com/PyCQA/docformatter
     rev: v1.7.5
     hooks:
       - id: docformatter
-        args: [--in-place, --pre-summary-newline, --non-cap, set]
+        additional_dependencies: [tomli]
+        args: [--in-place, --config, ./pyproject.toml]
         files: 'src/mplotter'
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
