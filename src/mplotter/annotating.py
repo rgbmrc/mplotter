@@ -153,7 +153,9 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         self.format = {
             "int": r"${sgn}{N}{mark}$",
             "frac": (
-                r"${sgn}\frac{{{N}{mark}}}{{{D}}}$" if frac else r"${sgn}{N}{mark}/{D}$"
+                r"${sgn}\dfrac{{{N}{mark}}}{{{D}}}$"
+                if frac
+                else r"${sgn}{N}{mark}/{D}$"
             ),
         }
         if mpl.rcParams["text.usetex"]:
