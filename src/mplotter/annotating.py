@@ -12,6 +12,7 @@ from string import ascii_lowercase
 
 import numpy as np
 import matplotlib as mpl
+from matplotlib.ticker import Formatter, ScalarFormatter
 
 __all__ = [
     "enum_axes",
@@ -44,7 +45,9 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **kw):
     list[matplotlib.offsetbox.AnchoredText]
         The added labels.
     """
-    axs = np.asanyarray(axs)
+    if axs is not np.asanyarray(axs):
+        # works also for dict_values from, e.g., plt.subpolot_mosaic
+        axs = np.fromiter(axs, object)
 
     if enum == "letters":
         enum = ascii_lowercase
@@ -63,7 +66,7 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **kw):
     return [artist(ax, fmt.format(e)) for ax, e in zip(axs.flat, enum)]
 
 
-class ScaledFormatter(mpl.ticker.Formatter):
+class ScaledFormatter(Formatter):
     def __init__(self, unit=1, squeeze=True):
         super().__init__()
         try:
@@ -84,7 +87,7 @@ class ScaledFormatter(mpl.ticker.Formatter):
         return val, mark
 
 
-class SignedFormatter(mpl.ticker.Formatter):
+class SignedFormatter(Formatter):
     def __init__(self, sign=None, sign_zero=True):
         super().__init__()
         self._init_sign = sign
@@ -106,14 +109,14 @@ class SignedFormatter(mpl.ticker.Formatter):
             return ""
 
 
-class SgnScalarFormatter(SignedFormatter, mpl.ticker.ScalarFormatter):
+class SgnScalarFormatter(ScalarFormatter, SignedFormatter):
     def __init__(self, sign=None, **kwargs):
         SignedFormatter.__init__(self, sign)
-        mpl.ticker.ScalarFormatter.__init__(self, **kwargs)
+        ScalarFormatter.__init__(self, **kwargs)
 
     def set_locs(self, locs):
         SignedFormatter.set_locs(self, locs)
-        mpl.ticker.ScalarFormatter.set_locs(self, locs)
+        ScalarFormatter.set_locs(self, locs)
         if self.sign:
             # first replace is likely pointless
             self.format = self.format.replace("%+", "%").replace("%", "%+")
@@ -150,17 +153,19 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         self.format = {
             "int": r"${sgn}{N}{mark}$",
             "frac": (
-                r"${sgn}\frac{{{N}{mark}}}{{{D}}}$" if frac else r"${sgn}{N}{mark}/{D}$"
+                r"${sgn}\dfrac{{{N}{mark}}}{{{D}}}$"
+                if frac
+                else r"${sgn}{N}{mark}/{D}$"
             ),
         }
         if mpl.rcParams["text.usetex"]:
             vspace = self.format["frac"]
             vspace = vspace.format(sgn="", N=1, D=1, mark=self.mark)
-            self.format["int"] += r"\vphantom{{{}}}".format(vspace)
+            self.format["int"] += r"\vphantom{{{{{}}}}}".format(vspace)
 
     def set_axis(self, axis):
         super().set_axis(axis)
-        axis.set_major_locator(mpl.ticker.MultipleLocator(self.base))
+        # axis.set_major_locator(mpl.ticker.MultipleLocator(self.base))
 
     def __call__(self, val, pos=None):
         D = self.D
