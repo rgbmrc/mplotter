@@ -1,0 +1,131 @@
+# PARAMS by PROPERTY
+# reference matplotlib version: 3.8
+# excluded: boxplot and axes3d
+
+# default rc settings organized by addressed property
+# does not cover all properties, let alone all rc params
+# for rc params by scope (plot type, figure element) see
+# https://matplotlib.org/stable/users/explain/customizing.html
+
+
+# ***************************************************************************
+# * COLOR & ALPHA                                                           *
+# ***************************************************************************
+
+# FOREGROUND
+text.color: black
+axes.edgecolor: black
+axes.labelcolor: black
+figure.edgecolor: white
+grid.color: '#b0b0b0'
+hatch.color: black
+legend.edgecolor: 0.8
+lines.color: C0
+patch.edgecolor: black
+savefig.edgecolor: black
+xtick.color: black
+ytick.color: black
+
+# BACKGROUND
+patch.facecolor: C0
+axes.facecolor: white
+figure.facecolor: white
+legend.facecolor: inherit
+savefig.facecolor: auto
+
+# ALPHA
+grid.alpha: 1.0
+legend.framealpha: 0.8
+savefig.transparent: False
+
+# EXTRAS
+# either not colors or inherit from above
+axes.titlecolor: auto
+legend.labelcolor: None
+legend.shadow: False
+lines.markerfacecolor: auto
+lines.markeredgecolor: auto
+patch.force_edgecolor: False
+xtick.labelcolor: inherit
+ytick.labelcolor: inherit
+
+
+# ***************************************************************************
+# * FONT SIZE                                                               *
+# ***************************************************************************
+
+font.size: 10.0
+axes.labelsize: medium
+axes.titlesize: large
+figure.labelsize: large
+figure.titlesize: large
+legend.fontsize: medium
+legend.title_fontsize: None
+xtick.labelsize: medium
+ytick.labelsize: medium
+
+
+# ***************************************************************************
+# * LINE & EDGE WIDTH                                                       *
+# ***************************************************************************
+
+axes.linewidth: 0.8
+contour.linewidth: None
+grid.linewidth: 0.8
+hatch.linewidth: 1.0
+lines.linewidth: 1.5
+lines.markeredgewidth: 1.5
+patch.linewidth: 1.0
+xtick.major.width: 0.8
+ytick.major.width: 0.8
+xtick.minor.width: 0.6
+ytick.minor.width: 0.6
+
+
+# ***************************************************************************
+# * ELEMENT SIZE                                                           *
+# ***************************************************************************
+
+errorbar.capsize: 0
+legend.handlelength: 2.0
+legend.handleheight: 0.7
+lines.markersize: 6
+ytick.major.size: 3.5
+xtick.major.size: 3.5
+ytick.minor.size: 2
+xtick.minor.size: 2
+
+
+# ***************************************************************************
+# * SPACING                                                                 *
+# ***************************************************************************
+
+axes.labelpad: 4.0
+axes.titlepad: 6.0
+legend.borderaxespad: 0.5
+legend.borderpad: 0.4
+legend.columnspacing: 2.0
+legend.handletextpad: 0.8
+legend.labelspacing: 0.5
+xtick.major.pad: 3.5
+ytick.major.pad: 3.5
+xtick.minor.pad: 3.4
+ytick.minor.pad: 3.4
+
+# FIGURE
+savefig.pad_inches: 0.1
+
+# often overriden on a per-plot basis
+axes.xmargin: .05
+axes.ymargin: .05
+axes.zmargin: .05
+figure.constrained_layout.w_pad: 0.04167
+figure.constrained_layout.h_pad: 0.04167
+figure.constrained_layout.wspace: 0.02
+figure.constrained_layout.hspace: 0.02
+figure.subplot.wspace: 0.2
+figure.subplot.hspace: 0.2
+figure.subplot.bottom: 0.11
+figure.subplot.left: 0.125
+figure.subplot.right: 0.9
+figure.subplot.top: 0.88

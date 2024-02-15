@@ -1,0 +1,15 @@
+# transparent vector graphics
+savefig.format: svg
+savefig.transparent: True
+
+# slide size as reference
+figure.figsize: 13.33, 7.5
+
+# larger font size
+font.size: 16.0
+
+# additional property customizations include
+# - foreground color from palette's C0
+# - thicker lines & edges
+# - bigger ticks & markers
+# - more spacing

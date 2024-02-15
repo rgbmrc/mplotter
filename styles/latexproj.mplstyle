@@ -1,14 +1,17 @@
+# LATEX PROJECT
+# specify capitalized
 
-# LATEX PROJECT PATH & PGF BACKEND
-# (1) specify options (CAPITALIZED) and (2) set backend via
-# from matplotlib.backend_bases import register_backend
-# register_backend('pdf', 'matplotlib.backends.backend_pgf')
 text.usetex: True
-pgf.texsystem: xelatex  # for drafts use (faster) pdflatex
-savefig.dpi: 72.27  # pdflatex dpi
-font.family: serif
+savefig.dpi: 72  # pdflatex dpi
+font.family: serif  # optional
 savefig.format: pdf
 figure.figsize: TEXTWIDTH, TEXTHEIGHT
 savefig.directory: FIGS_DIRECTORY
-pgf.preamble: \usepackage{STY_FILE_PATH}
 text.latex.preamble: \usepackage{STY_FILE_PATH}
+
+# PGF backend: https://matplotlib.org/stable/users/explain/text/pgf.html
+# from matplotlib.backend_bases import register_backend
+# register_backend('pdf', 'matplotlib.backends.backend_pgf')
+pgf.rcfonts: False # default is True, not viable with pdflatex
+pgf.texsystem: xelatex  # default, for drafts use (faster) pdflatex
+pgf.preamble: \usepackage{STY_FILE_PATH}

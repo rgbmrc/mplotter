@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 
-def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
+def enum_axes(axs, loc, fmt="({})", enum="letters", **kw):
     """
     Labels subfigures (axes).
 
@@ -31,14 +31,14 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
     axs : iterable[matplotlib.axes.Axes]
         Axes to be labelled.
     loc : str
-        Label location, passed to matplotlib.offsetbox.AnchoredText.
+        Label location, 'title' or a valid loc for matplotlib.offsetbox.AnchoredText.
     fmt : str, default '({})'
         Label format string.
     enum : str or iterable, default 'letters'
         Provides the labels via iteration. Special values:
         ('letters' | 'numbers') for (alphabetic | numeric) enumeration.
-    **at_kw :
-        Keyword arguments for matplotlib.offsetbox.AnchoredText.
+    **kw :
+        Keyword arguments for matplotlib.offsetbox.AnchoredText or matplotlib.axes.Axes.set_title.
 
     Returns
     -------
@@ -54,13 +54,16 @@ def enum_axes(axs, loc, fmt="({})", enum="letters", **at_kw):
     elif enum == "numbers":
         enum = count(start=1)
 
-    at_kw.setdefault("frameon", False)
-    at_kw.setdefault("borderpad", 0)
+    if loc == "title":
+        artist = lambda ax, lbl: ax.set_title(lbl, **kw)
+    else:
+        kw.setdefault("frameon", False)
+        kw.setdefault("borderpad", 0)
+        artist = lambda ax, lbl: ax.add_artist(
+            mpl.offsetbox.AnchoredText(lbl, loc, **kw),
+        )
 
-    return [
-        ax.add_artist(mpl.offsetbox.AnchoredText(fmt.format(e), loc, **at_kw))
-        for ax, e in zip(axs.flat, enum)
-    ]
+    return [artist(ax, fmt.format(e)) for ax, e in zip(axs.flat, enum)]
 
 
 class ScaledFormatter(Formatter):
@@ -149,9 +152,9 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
         self.frac = frac
         self.format = {
             "int": r"${sgn}{N}{mark}$",
-            "frac": r"${sgn}\frac{{{N}{mark}}}{{{D}}}$"
-            if frac
-            else r"${sgn}{N}{mark}/{D}$",
+            "frac": (
+                r"${sgn}\frac{{{N}{mark}}}{{{D}}}$" if frac else r"${sgn}{N}{mark}/{D}$"
+            ),
         }
         if mpl.rcParams["text.usetex"]:
             vspace = self.format["frac"]

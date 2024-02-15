@@ -11,3 +11,7 @@ ytick.direction: in
 xtick.top: True
 ytick.right: True
 grid.linestyle: :
+axes.axisbelow: False
+axes.titlesize: medium
+figure.titlesize: medium
+figure.labelsize: medium

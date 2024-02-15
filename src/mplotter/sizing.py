@@ -53,20 +53,20 @@ from tempfile import NamedTemporaryFile
 import numpy as np
 import matplotlib as mpl
 
-from mplotter.saving import save_fig
+from .saving import save_fig
 
 __all__ = ["fig_size", "get_fig_size", "set_fig_size"]
 
 logger = getLogger(__package__)
 
 SUPPORTED_FORMATS = {"eps", "ps", "svg"}
-"""set[str]: Supported file formats by :func:`get_fig_size`."""
+"""set of str: Supported file formats by :func:`get_fig_size`."""
 
 EXTRAS_FORMATS = {
     "pdf": ("pikepdf", {"pdf"}),
     "raster": ("PIL", {"png", "jpg", "jpeg", "tif", "tiff"}),
 }
-"""set[str]: Optional supported file formats by :func:`get_fig_size`."""
+"""set of str: Optional supported file formats by :func:`get_fig_size`."""
 
 for pkg, fmts in EXTRAS_FORMATS.values():
     try:

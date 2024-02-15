@@ -27,9 +27,9 @@ __all__ = ["fig_dir", "save_fig"]
 logger = getLogger(__package__)
 
 SUPPORTED_FORMATS = {"eps", "ps", "svg", "pdf", "png"}
-"""set[str]: Default supported file formats for git revision."""
+"""set of str: Default supported file formats for git revision."""
 EXIFTOOL_FORMATS = {"jpg", "jpeg", "tif", "tiff"}
-"""set[str]: Exiftool supported file formats for git revision."""
+"""set of str: Exiftool supported file formats for git revision."""
 
 try:
     run("exiftool", capture_output=True)

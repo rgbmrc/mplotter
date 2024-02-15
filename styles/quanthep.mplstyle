@@ -1,75 +1,9 @@
 # QUANTHEP STYLE
-axes.labelpad: 8
 axes.prop_cycle: cycler('color', ['004987', 'f7323f', 'ffce00', 'ffffff', '000000', 'ededed', '525252'])
-axes.titlepad: 12
 axes.unicode_minus: False
-axes.xmargin: 0
-axes.ymargin: 0
-figure.dpi: 150
-figure.figsize: 13.33, 7.5
 font.family: sans-serif
 font.monospace: Fira Code
 font.sans-serif: Selawik
 font.weight: 400
-savefig.directory: /mnt/d/quanthep/res/
-savefig.format: svg
 savefig.pad_inches: 0.015
 text.usetex: False
-xtick.major.size: 5
-xtick.minor.size: 3
-ytick.major.size: 5
-ytick.minor.size: 3
-xtick.major.pad: 5
-xtick.minor.pad: 5
-ytick.major.pad: 5
-ytick.minor.pad: 5
-
-# SET FONT SIZE VALUE
-# to append to a STYLE.mplstyle file run
-# sed 's/16/VALUE/' fontsize.mplstyle >> STYLE.mplstyle
-font.size: 16
-axes.labelsize: 16
-axes.titlesize: 16
-figure.titlesize: 16
-legend.fontsize: 16
-legend.title_fontsize: 16
-xtick.labelsize: 16
-ytick.labelsize: 16
-
-# SET FOREGORUND COLOR
-# to append to a STYLE.mplstyle file run
-# sed 's/C0/VALUE/' foregorund.mplstyle >> STYLE.mplstyle
-text.color: C0
-axes.edgecolor: C0
-axes.labelcolor: C0
-axes.titlecolor: C0
-figure.edgecolor: C0
-grid.color: C0
-hatch.color: C0
-lines.color: C0
-patch.edgecolor: C0
-savefig.edgecolor: C0
-xtick.color: C0
-ytick.color: C0
-
-# SET LINE WIDTH VALUE
-# to append to a STYLE.mplstyle file run
-# sed 's/1.2/VALUE/' linewidth.mplstyle >> STYLE.mplstyle
-patch.linewidth: 1.5
-axes.linewidth: 1.5
-boxplot.boxprops.linewidth: 1.5
-boxplot.capprops.linewidth: 1.5
-boxplot.flierprops.linewidth: 1.5
-boxplot.flierprops.markeredgewidth: 1.5
-boxplot.meanprops.linewidth: 1.5
-boxplot.medianprops.linewidth: 1.5
-boxplot.whiskerprops.linewidth: 1.5
-contour.linewidth: 1.5
-grid.linewidth: 1.5
-hatch.linewidth: 1.5
-lines.linewidth: 1.5
-lines.markeredgewidth: 1.5
-xtick.major.width: 1.5
-xtick.minor.width: 1.5
-ytick.major.width: 1.5
-ytick.minor.width: 1.5
