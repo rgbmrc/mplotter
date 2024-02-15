@@ -18,3 +18,5 @@ __all__ = ["save_fig"]
 
 __version__ = "0.2.3"
 """str: Package version."""
+
+DRAFT = False

@@ -201,7 +201,12 @@ def set_fig_size(fig, size=None, which="both", **savefig_kw):
     tuple[float]
         Draw-time width and height of the figure, in inches.
     """
+    from . import DRAFT
+
     size = np.asarray(size or fig.get_size_inches())
+    if DRAFT:
+        return size
+
     draw = deque([np.zeros(2), size], maxlen=2)
     show = deque([np.zeros(2)], maxlen=2)
 
