@@ -113,6 +113,13 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
     :class:`pathlib.Path`
         The destination path, with extension.
     """
+    import matplotlib.pyplot as plt
+    from . import DRAFT
+
+    if DRAFT:
+        plt.show(fig)
+        return
+
     fmt = savefig_kw.get("format") or mpl.rcParams["savefig.format"]
     try:
         dest = Path(dest or fig.get_label())
@@ -142,8 +149,6 @@ def save_fig(fig, dest=None, close=True, **savefig_kw):
         run(cmd, check=True, capture_output=True)
 
     if close:
-        import matplotlib.pyplot as plt
-
         logger.debug(f"Closed figure {get_fig_label(fig)}")
         plt.close(fig)
 
