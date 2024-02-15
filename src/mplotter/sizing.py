@@ -53,7 +53,7 @@ from tempfile import NamedTemporaryFile
 import numpy as np
 import matplotlib as mpl
 
-from mplotter.saving import save_fig
+from .saving import save_fig
 
 __all__ = ["fig_size", "get_fig_size", "set_fig_size"]
 
