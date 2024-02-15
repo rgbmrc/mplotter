@@ -55,3 +55,12 @@ def truncated_cmap(cmap, lo=0.0, hi=1.0, N=256):
         N=N,
     )
     return new_cmap
+
+
+def cmap_colors(cmap, N):
+    cmap = mpl.cm.get_cmap(cmap)
+    return cmap(np.linspace(0, 1, N))
+    try:
+        return cmap.colors
+    except AttributeError:
+        return cmap(range(cmap.N))
