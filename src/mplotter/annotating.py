@@ -158,10 +158,6 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
                 else r"${sgn}{N}{mark}/{D}$"
             ),
         }
-        if mpl.rcParams["text.usetex"]:
-            vspace = self.format["frac"]
-            vspace = vspace.format(sgn="", N=1, D=1, mark=self.mark)
-            self.format["int"] += r"\vphantom{{{{{}}}}}".format(vspace)
 
     def set_axis(self, axis):
         super().set_axis(axis)
@@ -184,4 +180,9 @@ class SSFractionFormatter(SignedFormatter, ScaledFormatter):
             fmt = self.format["int"]
         else:
             fmt = self.format["frac"]
-        return fmt.format(sgn=sgn, N=N, D=D, mark=mark)
+        s = fmt.format(sgn=sgn, N=N, D=D, mark=mark)
+        if mpl.rcParams["text.usetex"]:
+            vspace = self.format["frac"]
+            vspace = vspace.format(sgn="", N=1, D=1, mark=self.mark)
+            s += r"\vphantom{{{}}}".format(vspace)
+        return s
