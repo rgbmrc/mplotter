@@ -13,6 +13,7 @@ from . import sizing
 from . import styling
 from . import annotating
 from . import coloring
+from . import grids
 
 __all__ = ["save_fig"]
 
