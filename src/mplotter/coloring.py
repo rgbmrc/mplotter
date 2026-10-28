@@ -7,8 +7,9 @@ For further colormaps and palettes check out the `palettable library
 <https://jiffyclub.github.io/palettable/>`_.
 """
 
-import numpy as np
 import matplotlib as mpl
+import matplotlib.pyplot
+import numpy as np
 
 __all__ = ["lucid_cmap"]
 
@@ -48,7 +49,7 @@ def truncated_cmap(cmap, lo=0.0, hi=1.0, N=256):
     :class:`~matplotlib.colors.LinearSegmentedColormap`
         The truncated colormap.
     """
-    cmap = mpl.cm.get_cmap(cmap)
+    cmap = mpl.pyplot.get_cmap(cmap)
     new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
         f"{cmap.name}[{lo:.2f}:{hi:.2f}:{N}j]",
         cmap(np.linspace(lo, hi, N)),
@@ -58,7 +59,7 @@ def truncated_cmap(cmap, lo=0.0, hi=1.0, N=256):
 
 
 def cmap_colors(cmap, N):
-    cmap = mpl.cm.get_cmap(cmap)
+    cmap = mpl.pyplot.get_cmap(cmap)
     return cmap(np.linspace(0, 1, N))
     try:
         return cmap.colors
